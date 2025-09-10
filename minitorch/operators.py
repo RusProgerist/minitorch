@@ -131,7 +131,7 @@ def inv_back(x: float, d: float) -> float:
 def relu_back(x: float, d: float) -> float:
     r"If $f = relu$ compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return sigmoid(x) * (1 - sigmoid(x))
+    return x > 0
     raise NotImplementedError('Need to implement for Task 0.1')
 
 
