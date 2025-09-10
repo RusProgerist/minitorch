@@ -154,12 +154,14 @@ def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[fl
          new list
     """
     # TODO: Implement for Task 0.3.
+    return lambda iter: [fn(x) for x in iter]
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
 def negList(ls: Iterable[float]) -> Iterable[float]:
     "Use `map` and `neg` to negate each element in `ls`"
     # TODO: Implement for Task 0.3.
+    return map(neg, ls)
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
@@ -180,12 +182,14 @@ def zipWith(
 
     """
     # TODO: Implement for Task 0.3.
+    return lambda x, y: [fn(a, b) for a, b in zip(x, y)]
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
 def addLists(ls1: Iterable[float], ls2: Iterable[float]) -> Iterable[float]:
     "Add the elements of `ls1` and `ls2` using `zipWith` and `add`"
     # TODO: Implement for Task 0.3.
+    return zipWith(add, (ls1, ls2))
     raise NotImplementedError('Need to implement for Task 0.3')
 
 
