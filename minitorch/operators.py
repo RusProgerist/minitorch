@@ -110,7 +110,7 @@ def exp(x: float) -> float:
 def log_back(x: float, d: float) -> float:
     r"If $f = log$ as above, compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return 1 / log(x)
+    return d / log(x)
     raise NotImplementedError('Need to implement for Task 0.1')
 
 
@@ -124,14 +124,14 @@ def inv(x: float) -> float:
 def inv_back(x: float, d: float) -> float:
     r"If $f(x) = 1/x$ compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return - 1 / (x * x)
+    return - d / (x * x)
     raise NotImplementedError('Need to implement for Task 0.1')
 
 
 def relu_back(x: float, d: float) -> float:
     r"If $f = relu$ compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return (x > 0) * 1
+    return (x > 0) * d
     raise NotImplementedError('Need to implement for Task 0.1')
 
 
