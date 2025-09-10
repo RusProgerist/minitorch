@@ -210,10 +210,10 @@ def reduce(
     """
     # TODO: Implement for Task 0.3.
     def apply_reduce(ls: Iterable[float]) -> float:
-        buf_start = start
+        buff_start = start
         for x in ls:
-            buf_start = fn(buf_start, x)
-        return buf_start
+            buff_start = fn(buff_start, x)
+        return buff_start
 
     return apply_reduce
     # raise NotImplementedError('Need to implement for Task 0.3')
