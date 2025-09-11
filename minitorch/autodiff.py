@@ -77,7 +77,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
             return
         if node.unique_id in visited:
             return
-        visited.add(node.unique_id)
+        visited.append(node.unique_id)
         for parent in node.parents:
             dfs(parent)
         if not node.is_constant():
@@ -102,7 +102,21 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     No return. Should write to its results to the derivative values of each leaf through `accumulate_derivative`.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
+    vertex_sorted = topological_sort(variable)
+    derives = dict()
+    derives[variable.unique_id] = deriv
+
+    for vertex in vertex_sorted:
+        current_deriv = derives.get(vertex.unique_id, 0.0)
+        if vertex.is_leaf():
+            vertex.accumulate_derivative(current_deriv)
+            continue
+        chain_results = vertex.chain_rule(current_deriv)
+        for vert, der in chain_results:
+            if not vert.is_constant():
+                derives[vert.unique_id] = derives.get(vert.unique_id, 0.0) + der
+
+    # raise NotImplementedError('Need to implement for Task 1.4')
 
 
 @dataclass

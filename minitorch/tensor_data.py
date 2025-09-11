@@ -44,6 +44,10 @@ def index_to_position(index: Index, strides: Strides) -> int:
     """
 
     # TODO: Implement for Task 2.1.
+    summa = 0
+    for i in range(len(strides)):
+        summa += index[i] * strides[i]
+    return summa
     raise NotImplementedError('Need to implement for Task 2.1')
 
 
