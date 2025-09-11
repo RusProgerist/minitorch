@@ -34,7 +34,7 @@ def add(x: float, y: float) -> float:
 def neg(x: float) -> float:
     "$f(x) = -x$"
     # TODO: Implement for Task 0.1.
-    return -x
+    return -1.0 * x
     # raise NotImplementedError('Need to implement for Task 0.1')
 
 
@@ -90,7 +90,7 @@ def relu(x: float) -> float:
     (See https://en.wikipedia.org/wiki/Rectifier_(neural_networks) .)
     """
     # TODO: Implement for Task 0.1.
-    return x if x > 0 else 0
+    return x * 1.0 if x > 0 else 0.0
     # raise NotImplementedError('Need to implement for Task 0.1')
 
 
@@ -117,21 +117,21 @@ def log_back(x: float, d: float) -> float:
 def inv(x: float) -> float:
     "$f(x) = 1/x$"
     # TODO: Implement for Task 0.1.
-    return 1 / x
+    return 1.0 / x
     # raise NotImplementedError('Need to implement for Task 0.1')
 
 
 def inv_back(x: float, d: float) -> float:
     r"If $f(x) = 1/x$ compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return - d / (x * x)
+    return - d * 1.0 / (x * x)
     # raise NotImplementedError('Need to implement for Task 0.1')
 
 
 def relu_back(x: float, d: float) -> float:
     r"If $f = relu$ compute $d \times f'(x)$"
     # TODO: Implement for Task 0.1.
-    return (x > 0) * d
+    return (x > 0) * d * 1.0
     # raise NotImplementedError('Need to implement for Task 0.1')
 
 
