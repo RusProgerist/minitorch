@@ -44,10 +44,10 @@ def index_to_position(index: Index, strides: Strides) -> int:
     """
 
     # TODO: Implement for Task 2.1.
-    summa = 0
+    pos = 0
     for i in range(len(strides)):
-        summa += index[i] * strides[i]
-    return summa
+        pos += index[i] * strides[i]
+    return pos
     # raise NotImplementedError('Need to implement for Task 2.1')
 
 
@@ -67,7 +67,8 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
     # TODO: Implement for Task 2.1.
     bufer = ordinal
     for i in range(len(shape) - 1, -1, -1):
-        bufer, out_index[i] = divmod(bufer, shape[i])
+        out_index[i] = bufer % shape[i]
+        bufer //= shape[i]
     # raise NotImplementedError('Need to implement for Task 2.1')
 
 
@@ -91,7 +92,12 @@ def broadcast_index(
         None
     """
     # TODO: Implement for Task 2.2.
-    raise NotImplementedError('Need to implement for Task 2.2')
+    for i in range(len(shape)):
+        if shape[i] == 1:
+            out_index[i] = 0
+        else:
+            out_index[i] = big_index[len(big_shape) - len(shape) + i]
+    # raise NotImplementedError('Need to implement for Task 2.2')
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
@@ -109,6 +115,20 @@ def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:
         IndexingError : if cannot broadcast
     """
     # TODO: Implement for Task 2.2.
+    answer = []
+    need_len = max(len(shape1), len(shape2))
+    ones_eq_shape_one = (1,) * (need_len - len(shape1)) + shape1
+    ones_eq_shape_two = (1,) * (need_len - len(shape2)) + shape2
+    for i, j in zip(ones_eq_shape_one, ones_eq_shape_two):
+        if i == j:
+            answer.append(i)
+        elif j == 1:
+            answer.append(i)
+        elif i == 1:
+            answer.append(j)
+        else:
+            raise IndexingError("Cannot broadcast these two shapes :(")
+    return tuple(answer)
     raise NotImplementedError('Need to implement for Task 2.2')
 
 

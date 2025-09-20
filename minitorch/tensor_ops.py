@@ -265,7 +265,14 @@ def tensor_map(
         in_strides: Strides,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        one_index = np.zeros(len(out_shape), dtype=int)
+        two_index = np.zeros(len(in_shape), dtype=int)
+        for i in range(len(out)):
+            to_index(i, out_shape, one_index)
+            broadcast_index(one_index, out_shape, in_shape, two_index)
+            j = index_to_position(two_index, in_strides)
+            out[i] = fn(in_storage[j])
+        # raise NotImplementedError('Need to implement for Task 2.3')
 
     return _map
 
@@ -310,7 +317,17 @@ def tensor_zip(
         b_strides: Strides,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.zeros(len(out_shape), dtype=int)
+        a_index = np.zeros(len(a_shape), dtype=int)
+        b_index = np.zeros(len(b_shape), dtype=int)
+        for i in range(len(out)):
+            to_index(i, out_shape, out_index)
+            broadcast_index(out_index, out_shape, a_shape, a_index)
+            j_1 = index_to_position(a_index, a_strides)
+            broadcast_index(out_index, out_shape, b_shape, b_index)
+            j_2 = index_to_position(b_index, b_strides)
+            out[i] = fn(a_storage[j_1], b_storage[j_2])
+        # raise NotImplementedError('Need to implement for Task 2.3')
 
     return _zip
 
@@ -341,7 +358,14 @@ def tensor_reduce(
         reduce_dim: int,
     ) -> None:
         # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.zeros(len(out_shape), dtype=int)
+        for i in range(len(out)):
+            to_index(i, out_shape, out_index)
+            for k in range(a_shape[reduce_dim]):
+                out_index[reduce_dim] = k
+                pos_index = index_to_position(out_index, a_strides)
+                out[i] = fn(out[i], a_storage[pos_index])
+        # raise NotImplementedError('Need to implement for Task 2.3')
 
     return _reduce
 
