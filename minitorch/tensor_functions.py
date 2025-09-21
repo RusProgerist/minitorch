@@ -126,7 +126,8 @@ class Sigmoid(Function):
     def backward(ctx: Context, grad_output: Tensor) -> Tensor:
         # TODO: Implement for Task 2.4.
         (t1,) = ctx.saved_values
-        return t1.f.sigmoid_map(t1) * (1 - t1.f.sigmoid_map(t1)) * grad_output
+        one_tensor = tensor([1.0], backend=t1.backend)
+        return t1.f.sigmoid_map(t1) * (one_tensor - t1.f.sigmoid_map(t1)) * grad_output
         # raise NotImplementedError('Need to implement for Task 2.4')
 
 
@@ -211,7 +212,7 @@ class LT(Function):
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
         # TODO: Implement for Task 2.4.
         a, b = ctx.saved_values
-        return zeros(a), zeros(b)
+        return zeros(a.shape), zeros(b.shape)
         # raise NotImplementedError('Need to implement for Task 2.4')
 
 
@@ -227,7 +228,7 @@ class EQ(Function):
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, Tensor]:
         # TODO: Implement for Task 2.4.
         a, b = ctx.saved_values
-        return zeros(a), zeros(b)
+        return zeros(a.shape), zeros(b.shape)
         raise NotImplementedError('Need to implement for Task 2.4')
 
 
@@ -245,14 +246,18 @@ class Permute(Function):
         # TODO: Implement for Task 2.3.
         order_indexes = [int(order[i]) for i in range(order.size)]
         ctx.save_for_backward(order_indexes)
-        new_a = a._tensor.permute(*order)
-        return minitorch.Tensor.make(new_a._storage, new_a.shape, new_a.strides, a.backend)
+        need_a = a._tensor.permute(*order_indexes)
+        return minitorch.Tensor.make(need_a._storage, need_a.shape, need_a.strides, backend=a.backend)
         # raise NotImplementedError('Need to implement for Task 2.3')
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         # TODO: Implement for Task 2.4.
-        raise NotImplementedError('Need to implement for Task 2.4')
+        (order_indexes,) = ctx.saved_tensors
+        order_indexes = np.argsort(order_indexes)
+        need_gradient = grad_output._tensor.permute(*order_indexes)
+        return minitorch.Tensor.make(need_gradient._storage, need_gradient.shape, need_gradient.strides, backend=need_gradient.backend), 0.0
+        # raise NotImplementedError('Need to implement for Task 2.4')
 
 
 class View(Function):
