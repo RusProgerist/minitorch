@@ -247,16 +247,18 @@ class Permute(Function):
         order_indexes = [int(order[i]) for i in range(order.size)]
         ctx.save_for_backward(order_indexes)
         need_a = a._tensor.permute(*order_indexes)
-        return minitorch.Tensor.make(need_a._storage, need_a.shape, need_a.strides, backend=a.backend)
+        return minitorch.Tensor.make(need_a._storage, need_a.shape, need_a.strides, a.backend)
         # raise NotImplementedError('Need to implement for Task 2.3')
 
     @staticmethod
     def backward(ctx: Context, grad_output: Tensor) -> Tuple[Tensor, float]:
         # TODO: Implement for Task 2.4.
-        (order_indexes,) = ctx.saved_tensors
-        order_indexes = np.argsort(order_indexes)
-        need_gradient = grad_output._tensor.permute(*order_indexes)
-        return minitorch.Tensor.make(need_gradient._storage, need_gradient.shape, need_gradient.strides, backend=need_gradient.backend), 0.0
+        (saved_order,) = ctx.saved_values
+        inv_order = [0] * len(saved_order)
+        for i, pos in enumerate(saved_order):
+            inv_order[pos] = i
+        new_grad = grad_output._tensor.permute(*inv_order)
+        return minitorch.Tensor.make(new_grad._storage, new_grad.shape, new_grad.strides, grad_output.backend), 0.0
         # raise NotImplementedError('Need to implement for Task 2.4')
 
 
