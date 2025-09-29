@@ -44,4 +44,3 @@ class ArrowOpts:
 
 class Linear:
     pass
-
